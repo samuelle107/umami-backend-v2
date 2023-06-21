@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
-import prisma from "../prisma-client";
+import prisma from "../utils/prisma-client";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {
