@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 
-import prisma from "../utils/client";
+import prisma from "../../utils/client";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {

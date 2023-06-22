@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
-import prisma from "../utils/client";
+import prisma from "../../utils/client";
 
 export async function getRecipeReviews(req: Request, res: Response) {
   const recipeId: string | undefined = req.params.id;

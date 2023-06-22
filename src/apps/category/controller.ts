@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 
-import prisma from "../utils/client";
+import prisma from "../../utils/client";
 
 export async function getRecipeCategories(req: Request, res: Response) {
   const recipeId = Number(req.params.id);
