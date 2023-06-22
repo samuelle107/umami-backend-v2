@@ -8,14 +8,29 @@ datasource db {
 }
 
 model Recipe {
-  id           Int            @id(map: "recipes_pkey") @default(autoincrement())
-  name         String         @db.VarChar(255)
-  imageUrl     String?        @db.VarChar(255)
-  srcUrl       String?        @db.VarChar(255)
-  recipeRating RecipeRating[]
+  id             Int              @id(map: "recipes_pkey") @default(autoincrement())
+  name           String           @db.VarChar(255)
+  imageUrl       String?          @db.VarChar(255)
+  srcUrl         String?          @db.VarChar(255)
+  recipeCategory RecipeCategory[]
+  review         Review[]
 }
 
-model RecipeRating {
+model Category {
+  id             Int              @id @default(autoincrement())
+  category       String           @db.VarChar(255)
+  recipeCategory RecipeCategory[]
+}
+
+model RecipeCategory {
+  id         Int      @id @default(autoincrement())
+  recipeId   Int
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+}
+
+model Review {
   id       Int     @id(map: "recipe_ratings_pkey") @default(autoincrement())
   recipeId Int
   comment  String? @db.VarChar(512)
