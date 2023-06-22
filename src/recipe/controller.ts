@@ -23,6 +23,10 @@ export async function getRecipe(req: Request, res: Response) {
       where: {
         id: Number(id),
       },
+      include: {
+        recipeCategory: true,
+        review: true,
+      },
     });
 
     if (recipe) {

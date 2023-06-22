@@ -2,38 +2,38 @@ import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 import prisma from "../utils/client";
 
-export async function getRecipeRatings(req: Request, res: Response) {
+export async function getRecipeReviews(req: Request, res: Response) {
   const recipeId: string | undefined = req.params.id;
 
   try {
-    const ratings = await prisma.recipeRating.findMany({
+    const review = await prisma.review.findMany({
       where: {
         recipeId: Number(recipeId),
       },
     });
 
-    res.send(ratings);
+    res.send(review);
   } catch (err) {
     res.status(404).send({
-      message: `Could not find ratings for recipe ${recipeId}`,
+      message: `Could not find reviews for recipe ${recipeId}`,
     });
   }
 }
 
-export async function getRecipeRating(req: Request, res: Response) {
-  const ratingId: string | undefined = req.params.ratingId;
+export async function getRecipeReview(req: Request, res: Response) {
+  const reviewId: string | undefined = req.params.reviewId;
 
   try {
-    const rating = await prisma.recipeRating.findUnique({
+    const review = await prisma.review.findUnique({
       where: {
-        id: Number(ratingId),
+        id: Number(reviewId),
       },
     });
 
-    res.send(rating);
+    res.send(review);
   } catch (err) {
     res.status(404).send({
-      message: `Could not find rating ${ratingId}`,
+      message: `Could not find review ${reviewId}`,
     });
   }
 }
@@ -44,27 +44,29 @@ export async function getRecipeRating(req: Request, res: Response) {
  * @param res
  * https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
  */
-export async function addRecipeRating(req: Request, res: Response) {
-  const data: Prisma.RecipeRatingCreateInput = {
+export async function addRecipeReview(req: Request, res: Response) {
+  const recipeId = Number(req.params.id);
+
+  const data: Prisma.ReviewCreateInput = {
     comment: req.body.comment,
     rating: req.body.rating,
     recipe: {
       connect: {
-        id: Number(req.params.id),
+        id: recipeId,
       },
     },
   };
 
   try {
-    const rating = await prisma.recipeRating.create({
+    const review = await prisma.review.create({
       data,
     });
 
-    res.send(rating);
+    res.send(review);
   } catch (err) {
     console.log(err);
     res.status(400).send({
-      message: "Could not create rating",
+      message: "Could not create review",
     });
   }
 }
