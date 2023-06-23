@@ -1,18 +1,18 @@
 import { Prisma } from "@prisma/client";
 
 import { validateId } from "../../../utils";
-import RecipeRepo from "../recipe.repo";
+import RecipeDAO from "../recipe.dao";
 import recipeCreateSchema from "./recipe.schema";
 
 export async function retrieveRecipes() {
-  const recipes = await RecipeRepo.retrieveRecipes();
+  const recipes = await RecipeDAO.retrieveRecipes();
 
   return recipes;
 }
 
 export async function retrieveRecipe(recipeId: string | undefined) {
   const validatedRecipeId = validateId(recipeId);
-  const recipe = await RecipeRepo.retrieveRecipe(validatedRecipeId);
+  const recipe = await RecipeDAO.retrieveRecipe(validatedRecipeId);
 
   return recipe;
 }
@@ -26,14 +26,14 @@ export async function createRecipe(body: Record<string, any>) {
 
   await recipeCreateSchema.validate(newRecipe);
 
-  const recipe = await RecipeRepo.createRecipe(newRecipe);
+  const recipe = await RecipeDAO.createRecipe(newRecipe);
 
   return recipe;
 }
 
 export async function removeRecipe(recipeId: string | undefined) {
   const validatedRecipeId = validateId(recipeId);
-  const recipe = await RecipeRepo.removeRecipe(validatedRecipeId);
+  const recipe = await RecipeDAO.removeRecipe(validatedRecipeId);
 
   return recipe.id;
 }

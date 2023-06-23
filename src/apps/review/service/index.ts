@@ -1,19 +1,19 @@
 import { Prisma } from "@prisma/client";
 
 import { validateId } from "../../../utils";
-import ReviewRepo from "../review.repo";
+import ReviewDAO from "../review.repo";
 import reviewCreateSchema from "./review.schema";
 
 export async function retrieveRecipeReviews(recipeId: string | undefined) {
   const validatedId = validateId(recipeId);
-  const reviews = ReviewRepo.retrieveRecipeReviews(validatedId);
+  const reviews = ReviewDAO.retrieveRecipeReviews(validatedId);
 
   return reviews;
 }
 
 export async function retrieveRecipeReview(reviewId: string | undefined) {
   const validatedId = validateId(reviewId);
-  const review = await ReviewRepo.retrieveRecipeReview(validatedId);
+  const review = await ReviewDAO.retrieveRecipeReview(validatedId);
 
   return review;
 }
@@ -36,7 +36,7 @@ export async function createRecipeReview(
 
   await reviewCreateSchema.validate(data);
 
-  const review = ReviewRepo.createRecipeReview(data);
+  const review = ReviewDAO.createRecipeReview(data);
 
   return review;
 }

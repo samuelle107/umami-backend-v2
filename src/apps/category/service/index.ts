@@ -1,12 +1,12 @@
 import { Category } from "@prisma/client";
 
 import { validateId } from "../../../utils";
-import CategoryRepo from "../category.repo";
+import CategoryDAO from "../category.dao";
 
 export async function retrieveRecipeCategories(recipeId: string | undefined) {
   const parsedRecipeId = validateId(recipeId);
 
-  const recipeCategories = await CategoryRepo.retrieveRecipeCategories(
+  const recipeCategories = await CategoryDAO.retrieveRecipeCategories(
     parsedRecipeId
   );
 
@@ -14,7 +14,7 @@ export async function retrieveRecipeCategories(recipeId: string | undefined) {
 }
 
 export async function createCategory(categoryName: string) {
-  return await CategoryRepo.createCategory(categoryName);
+  return await CategoryDAO.createCategory(categoryName);
 }
 
 export async function createRecipeCategory(
@@ -25,7 +25,7 @@ export async function createRecipeCategory(
 
   const parsedRecipeId = validateId(recipeId);
 
-  const recipeCategory = await CategoryRepo.createRecipeCategory(
+  const recipeCategory = await CategoryDAO.createRecipeCategory(
     parsedRecipeId,
     category
   );

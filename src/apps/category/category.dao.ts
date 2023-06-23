@@ -46,10 +46,10 @@ async function createRecipeCategory(recipeId: number, category: Category) {
   return recipeCategory;
 }
 
-const CategoryRepo = {
+const CategoryDAO = {
   retrieveRecipeCategories,
   createCategory,
   createRecipeCategory,
 };
 
-export default CategoryRepo;
+export default CategoryDAO;
