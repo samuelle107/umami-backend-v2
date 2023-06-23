@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 
 import { validateId } from "../../../utils";
 import ReviewRepo from "../review.repo";
+import reviewCreateSchema from "./review.schema";
 
 export async function retrieveRecipeReviews(recipeId: string | undefined) {
   const validatedId = validateId(recipeId);
@@ -32,6 +33,8 @@ export async function createRecipeReview(
       },
     },
   };
+
+  await reviewCreateSchema.validate(data);
 
   const review = ReviewRepo.createRecipeReview(data);
 
