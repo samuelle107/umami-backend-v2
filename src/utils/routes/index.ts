@@ -1,14 +1,4 @@
-function sandwich(url: string) {
-  return `/${url}/`;
-}
-
-function prependColon(id: string) {
-  return `:${id}`;
-}
-
-function createUrl(routes: string[]) {
-  return sandwich(routes.join("/"));
-}
+import { createUrl, prependColon } from "./helper";
 
 export const routeIds = {
   review: "reviewId",
