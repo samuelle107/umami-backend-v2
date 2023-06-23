@@ -13,12 +13,13 @@ describe("recipe.service", () => {
 
       prismaMock.recipe.create.mockResolvedValue(resolvedData);
 
-      await expect(createRecipe(resolvedData)).resolves.toEqual({
-        id: 1,
-        imageUrl: "",
-        name: "Noodles",
-        srcUrl: "",
-      });
+      await expect(
+        createRecipe({
+          imageUrl: "",
+          name: "Noodles",
+          srcUrl: "",
+        })
+      ).resolves.toEqual(resolvedData);
     });
 
     test("should fail to create recipe w/o name", async () => {
