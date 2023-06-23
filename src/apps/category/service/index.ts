@@ -1,6 +1,6 @@
 import { Category } from "@prisma/client";
+import { validateId } from "src/utils";
 
-import { validateId } from "../../../utils";
 import CategoryDAO from "../category.dao";
 
 export async function retrieveRecipeCategories(recipeId: string | undefined) {

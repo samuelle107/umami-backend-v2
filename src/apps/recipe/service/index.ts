@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
+import { validateId } from "src/utils";
 
-import { validateId } from "../../../utils";
 import RecipeDAO from "../recipe.dao";
 import recipeCreateSchema from "./recipe.schema";
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
+import { routeIds } from "src/utils/routes";
 
-import { routeIds } from "../../utils/routes";
 import {
   createRecipe,
   removeRecipe,
