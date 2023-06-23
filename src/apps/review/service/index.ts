@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import { validateId } from "../../../utils";
-import ReviewDAO from "../review.repo";
+import ReviewDAO from "../review.dao";
 import reviewCreateSchema from "./review.schema";
 
 export async function retrieveRecipeReviews(recipeId: string | undefined) {
