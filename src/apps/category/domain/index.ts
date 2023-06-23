@@ -1,6 +1,7 @@
 import { Category } from "@prisma/client";
-import categoryRepository from "../dataAccess";
+
 import { validateId } from "../../..//utils";
+import categoryRepository from "../dataAccess";
 
 export async function retrieveRecipeCategories(recipeId: string | undefined) {
   const parsedRecipeId = validateId(recipeId);
