@@ -2,8 +2,8 @@ import bodyParser from "body-parser";
 import express from "express";
 
 import recipeCategoryRouter from "./apps/category/router";
-import recipeReviewRouter from "./apps/review/router";
 import recipeRouter from "./apps/recipe/router";
+import recipeReviewRouter from "./apps/review/router";
 
 const app = express();
 

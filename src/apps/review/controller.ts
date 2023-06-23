@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
+
+import { routeIds } from "../../utils/routes";
 import {
   createRecipeReview,
   retrieveRecipeReview,
   retrieveRecipeReviews,
 } from "./domain";
-
-import { routeIds } from "../../utils/routes";
 
 export async function getRecipeReviews(req: Request, res: Response) {
   const recipeId = req.params[routeIds.recipe];

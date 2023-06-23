@@ -1,11 +1,12 @@
+import { Category } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
+
+import { routeIds } from "../../utils/routes";
 import {
   createCategory,
   createRecipeCategory,
   retrieveRecipeCategories,
 } from "./domain";
-import { Category } from "@prisma/client";
-import { routeIds } from "../../utils/routes";
 
 export async function getRecipeCategories(req: Request, res: Response) {
   try {

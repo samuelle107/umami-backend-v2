@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
+
+import { routeIds } from "../../utils/routes";
 import {
   createRecipe,
   removeRecipe,
   retrieveRecipe,
   retrieveRecipes,
 } from "./domain";
-import { routeIds } from "../../utils/routes";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {

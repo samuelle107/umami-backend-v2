@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
-import recipeRepository from "../dataAccess";
+
 import { validateId } from "../../..//utils";
+import recipeRepository from "../dataAccess";
 
 export async function retrieveRecipes() {
   const recipes = await recipeRepository.retrieveRecipes();
