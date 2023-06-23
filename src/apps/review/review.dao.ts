@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
-import prisma from "src/utils/client";
+
+import prisma from "../../utils/client";
 
 async function retrieveRecipeReviews(recipeId: number) {
   const reviews = await prisma.review.findMany({

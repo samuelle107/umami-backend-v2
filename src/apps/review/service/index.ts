@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
-import { validateId } from "src/utils";
 
+import { validateId } from "../../../utils";
 import ReviewDAO from "../review.dao";
 import reviewCreateSchema from "./review.schema";
 

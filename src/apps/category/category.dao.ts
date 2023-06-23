@@ -1,5 +1,6 @@
 import { Category } from "@prisma/client";
-import prisma from "src/utils/client";
+
+import prisma from "../../utils/client";
 
 async function retrieveRecipeCategories(recipeId: number) {
   const recipeCategories = await prisma.recipeCategory.findMany({

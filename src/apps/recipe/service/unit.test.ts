@@ -1,5 +1,4 @@
-import { prismaMock } from "src/utils/client/singleton";
-
+import { prismaMock } from "../../../utils/client/singleton";
 import { createRecipe, removeRecipe } from ".";
 
 describe("recipe.service", () => {
