@@ -30,10 +30,10 @@ async function createRecipeReview(data: Prisma.ReviewCreateInput) {
   return review;
 }
 
-const ReviewService = {
+const ReviewRepo = {
   retrieveRecipeReview,
   retrieveRecipeReviews,
   createRecipeReview,
 };
 
-export default ReviewService;
+export default ReviewRepo;

@@ -5,7 +5,7 @@ import {
   createRecipeReview,
   retrieveRecipeReview,
   retrieveRecipeReviews,
-} from "./domain";
+} from "./service";
 
 export async function getRecipeReviews(req: Request, res: Response) {
   const recipeId = req.params[routeIds.recipe];

@@ -50,11 +50,11 @@ async function removeRecipe(recipeId: number) {
   return recipe;
 }
 
-const RecipeService = {
+const RecipeRepo = {
   retrieveRecipe,
   retrieveRecipes,
   createRecipe,
   removeRecipe,
 };
 
-export default RecipeService;
+export default RecipeRepo;

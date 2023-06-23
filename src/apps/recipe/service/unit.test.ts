@@ -1,7 +1,7 @@
 import { prismaMock } from "../../../utils/client/singleton";
 import { createRecipe, removeRecipe } from ".";
 
-describe("recipe.domain", () => {
+describe("recipe.service", () => {
   describe("create recipe", () => {
     test("should create recipe", async () => {
       const resolvedData = {

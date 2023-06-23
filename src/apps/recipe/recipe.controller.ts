@@ -6,7 +6,7 @@ import {
   removeRecipe,
   retrieveRecipe,
   retrieveRecipes,
-} from "./domain";
+} from "./service";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {
@@ -50,10 +50,10 @@ export async function postRecipe(req: Request, res: Response) {
 
 export async function deleteRecipe(req: Request, res: Response) {
   try {
-    const recipe = await removeRecipe(req.params[routeIds.recipe]);
+    const recipeId = await removeRecipe(req.params[routeIds.recipe]);
 
     res.send({
-      message: `Successfully deleted recipe ${recipe.id}`,
+      message: `Successfully deleted recipe ${recipeId}`,
     });
   } catch (err) {
     res.status(400).send({

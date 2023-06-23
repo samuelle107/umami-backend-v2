@@ -6,7 +6,7 @@ import {
   createCategory,
   createRecipeCategory,
   retrieveRecipeCategories,
-} from "./domain";
+} from "./service";
 
 export async function getRecipeCategories(req: Request, res: Response) {
   try {

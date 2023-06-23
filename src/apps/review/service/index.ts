@@ -1,18 +1,18 @@
 import { Prisma } from "@prisma/client";
 
 import { validateId } from "../../../utils";
-import ReviewService from "../review.service";
+import ReviewRepo from "../review.repo";
 
 export async function retrieveRecipeReviews(recipeId: string | undefined) {
   const validatedId = validateId(recipeId);
-  const reviews = ReviewService.retrieveRecipeReviews(validatedId);
+  const reviews = ReviewRepo.retrieveRecipeReviews(validatedId);
 
   return reviews;
 }
 
 export async function retrieveRecipeReview(reviewId: string | undefined) {
   const validatedId = validateId(reviewId);
-  const review = await ReviewService.retrieveRecipeReview(validatedId);
+  const review = await ReviewRepo.retrieveRecipeReview(validatedId);
 
   return review;
 }
@@ -33,7 +33,7 @@ export async function createRecipeReview(
     },
   };
 
-  const review = ReviewService.createRecipeReview(data);
+  const review = ReviewRepo.createRecipeReview(data);
 
   return review;
 }
