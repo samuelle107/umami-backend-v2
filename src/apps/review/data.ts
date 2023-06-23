@@ -21,7 +21,7 @@ export async function retrieveRecipeReview(reviewId: number) {
   return review;
 }
 
-export async function createPostReview(data: Prisma.ReviewCreateInput) {
+export async function createRecipeReview(data: Prisma.ReviewCreateInput) {
   const review = await prisma.review.create({
     data,
   });
