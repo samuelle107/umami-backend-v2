@@ -4,7 +4,7 @@ export const routeIds = {
   review: "reviewId",
   recipe: "recipeId",
   category: "categoryId",
-};
+} as const;
 
 const base = {
   recipes: "recipes",
