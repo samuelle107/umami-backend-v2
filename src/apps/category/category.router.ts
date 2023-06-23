@@ -1,7 +1,7 @@
 import express from "express";
 
 import { routes } from "../../utils/routes";
-import * as controller from "./controller";
+import * as controller from "./category.controller";
 
 const recipeCategoryRouter = express.Router();
 
