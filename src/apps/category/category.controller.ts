@@ -1,4 +1,4 @@
-import { Category } from "@prisma/client";
+import { Category, RecipeCategory } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 
 import { routeIds } from "../../utils/routes";
@@ -8,7 +8,12 @@ import {
   retrieveRecipeCategories,
 } from "./service";
 
-export async function getRecipeCategories(req: Request, res: Response) {
+export async function getRecipeCategories(
+  req: Request<{
+    [routeIds.recipe]: string;
+  }>,
+  res: Response
+) {
   try {
     const recipeCategories = await retrieveRecipeCategories(
       req.params[routeIds.recipe]
@@ -27,8 +32,14 @@ export async function getRecipeCategories(req: Request, res: Response) {
  * @param next Sends the created/found category to the next function (addRecipeCategory)
  */
 export async function postCategory(
-  req: Request,
-  res: Response,
+  req: Request<
+    undefined,
+    undefined,
+    {
+      category: string;
+    }
+  >,
+  res: Response<void>,
   next: NextFunction
 ) {
   const newCategoryName: string = req.body.category;
@@ -44,8 +55,21 @@ export async function postCategory(
   next();
 }
 
-export async function getRecipeCategory(req: Request, res: Response) {
-  const category: Category | undefined = res.locals.category;
+export async function getRecipeCategory(
+  req: Request<{
+    [routeIds.recipe]: string;
+  }>,
+  res: Response<
+    | RecipeCategory
+    | {
+        message: string;
+      },
+    {
+      category?: Category;
+    }
+  >
+) {
+  const category = res.locals.category;
 
   try {
     const recipeCategory = await createRecipeCategory(

@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 
 import { routeIds } from "../../utils/routes";
@@ -20,7 +21,10 @@ export async function getRecipes(_req: Request, res: Response) {
   }
 }
 
-export async function getRecipe(req: Request, res: Response) {
+export async function getRecipe(
+  req: Request<{ [routeIds.recipe]: string }>,
+  res: Response
+) {
   const id = req.params[routeIds.recipe];
 
   try {
@@ -34,7 +38,10 @@ export async function getRecipe(req: Request, res: Response) {
   }
 }
 
-export async function postRecipe(req: Request, res: Response) {
+export async function postRecipe(
+  req: Request<undefined, undefined, Prisma.RecipeCreateInput>,
+  res: Response
+) {
   try {
     const recipe = await createRecipe(req.body);
 
@@ -48,7 +55,10 @@ export async function postRecipe(req: Request, res: Response) {
   }
 }
 
-export async function deleteRecipe(req: Request, res: Response) {
+export async function deleteRecipe(
+  req: Request<{ [routeIds.recipe]: string }>,
+  res: Response
+) {
   try {
     const recipeId = await removeRecipe(req.params[routeIds.recipe]);
 

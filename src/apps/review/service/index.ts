@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { Request } from "express";
 
 import { validateId } from "../../../utils";
 import ReviewDAO from "../review.dao";
@@ -20,7 +21,7 @@ export async function retrieveRecipeReview(reviewId: string | undefined) {
 
 export async function createRecipeReview(
   recipeId: string | undefined,
-  body: any
+  body: Request["body"]
 ) {
   const validatedId = validateId(recipeId);
 

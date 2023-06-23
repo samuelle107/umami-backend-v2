@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 
 import { routeIds } from "../../utils/routes";
@@ -7,7 +8,10 @@ import {
   retrieveRecipeReviews,
 } from "./service";
 
-export async function getRecipeReviews(req: Request, res: Response) {
+export async function getRecipeReviews(
+  req: Request<{ [routeIds.recipe]: string }>,
+  res: Response
+) {
   const recipeId = req.params[routeIds.recipe];
 
   try {
@@ -21,7 +25,10 @@ export async function getRecipeReviews(req: Request, res: Response) {
   }
 }
 
-export async function getRecipeReview(req: Request, res: Response) {
+export async function getRecipeReview(
+  req: Request<{ [routeIds.review]: string }>,
+  res: Response
+) {
   const reviewId = req.params[routeIds.review];
 
   try {
@@ -41,7 +48,14 @@ export async function getRecipeReview(req: Request, res: Response) {
  * @param res
  * https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
  */
-export async function postRecipeReview(req: Request, res: Response) {
+export async function postRecipeReview(
+  req: Request<
+    { [routeIds.recipe]: string },
+    undefined,
+    Prisma.ReviewCreateInput
+  >,
+  res: Response
+) {
   try {
     const review = await createRecipeReview(
       req.params[routeIds.recipe],
