@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 import prisma from "../../utils/client";
+import { routeIds } from "../../utils/routes";
 
 export async function getRecipeReviews(req: Request, res: Response) {
-  const recipeId: string | undefined = req.params.id;
+  const recipeId: string | undefined = req.params[routeIds.recipe];
 
   try {
     const review = await prisma.review.findMany({
@@ -21,7 +22,7 @@ export async function getRecipeReviews(req: Request, res: Response) {
 }
 
 export async function getRecipeReview(req: Request, res: Response) {
-  const reviewId: string | undefined = req.params.reviewId;
+  const reviewId: string | undefined = req.params[routeIds.review];
 
   try {
     const review = await prisma.review.findUnique({
@@ -45,7 +46,7 @@ export async function getRecipeReview(req: Request, res: Response) {
  * https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
  */
 export async function addRecipeReview(req: Request, res: Response) {
-  const recipeId = Number(req.params.id);
+  const recipeId = Number(req.params[routeIds.recipe]);
 
   const data: Prisma.ReviewCreateInput = {
     comment: req.body.comment,

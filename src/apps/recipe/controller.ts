@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Prisma } from "@prisma/client";
 
 import prisma from "../../utils/client";
+import { routeIds } from "../../utils/routes";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {
@@ -16,7 +17,9 @@ export async function getRecipes(_req: Request, res: Response) {
 }
 
 export async function getRecipe(req: Request, res: Response) {
-  const { id }: { id?: string } = req.params;
+  const id: string | undefined = req.params[routeIds.recipe];
+
+  console.log(req.params, routeIds.recipe);
 
   try {
     const recipe = await prisma.recipe.findUnique({
@@ -72,7 +75,7 @@ export async function addRecipe(req: Request, res: Response) {
 }
 
 export async function deleteRecipe(req: Request, res: Response) {
-  const id: string | undefined = req.params.id;
+  const id: string | undefined = req.params[routeIds.recipe];
 
   try {
     await prisma.recipe.delete({

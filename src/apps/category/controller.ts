@@ -1,28 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
+import { Category } from "@prisma/client";
 import prisma from "../../utils/client";
-
-export async function findOrCreateCategory(categoryName: string) {
-  try {
-    const category = await prisma.category.upsert({
-      where: {
-        category: categoryName,
-      },
-      update: {},
-      create: {
-        category: categoryName,
-      },
-    });
-
-    return category;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
-}
+import { routeIds } from "../../utils/routes";
 
 export async function getRecipeCategories(req: Request, res: Response) {
-  const recipeId = Number(req.params.id);
+  const recipeId = Number(req.params[routeIds.recipe]);
 
   try {
     const recipeCategories = await prisma.recipeCategory.findMany({
@@ -37,12 +20,44 @@ export async function getRecipeCategories(req: Request, res: Response) {
   }
 }
 
-export async function addRecipeCategory(req: Request, res: Response) {
+/**
+ * Middleware to create a category
+ * @param req
+ * @param res
+ * @param next Sends the created/found category to the next function (addRecipeCategory)
+ */
+export async function addCategory(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const newCategoryName: string = req.body.category;
-  const recipeId = Number(req.params.id);
 
   try {
-    const category = await findOrCreateCategory(newCategoryName);
+    const category = await prisma.category.upsert({
+      where: {
+        category: newCategoryName,
+      },
+      update: {},
+      create: {
+        category: newCategoryName,
+      },
+    });
+
+    res.locals.category = category;
+  } catch (err) {
+    console.log(err);
+  }
+
+  next();
+}
+
+export async function addRecipeCategory(req: Request, res: Response) {
+  const category: Category | undefined = res.locals.category;
+  const recipeId = Number(req.params[routeIds.recipe]);
+
+  try {
+    if (!category) throw Error("No category found");
 
     // Create or update with nothing
     // Essentially create or do nothing if it exists already

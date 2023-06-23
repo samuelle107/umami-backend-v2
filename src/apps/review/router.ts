@@ -1,14 +1,15 @@
 import * as controller from "./controller";
 
 import express from "express";
+import { routes } from "../../utils/routes";
 
 const recipeReviewRouter = express.Router();
 
-recipeReviewRouter.get("/recipes/:id/reviews/", controller.getRecipeReviews);
-recipeReviewRouter.get(
-  "/recipes/:id/reviews/:reviewId/",
-  controller.getRecipeReview
-);
-recipeReviewRouter.post("/recipes/:id/reviews", controller.addRecipeReview);
+recipeReviewRouter
+  .route(routes.reviews)
+  .get(controller.getRecipeReviews)
+  .post(controller.addRecipeReview);
+
+recipeReviewRouter.route(routes.review).get(controller.getRecipeReview);
 
 export default recipeReviewRouter;

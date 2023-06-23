@@ -1,7 +1,19 @@
+function sandwich(url: string) {
+  return `/${url}/`;
+}
+
+function prependColon(id: string) {
+  return `:${id}`;
+}
+
+function createUrl(routes: string[]) {
+  return sandwich(routes.join("/"));
+}
+
 export const routeIds = {
-  review: ":reviewId",
-  recipe: ":recipeId",
-  category: ":categoryId",
+  review: "reviewId",
+  recipe: "recipeId",
+  category: "categoryId",
 };
 
 const base = {
@@ -11,19 +23,15 @@ const base = {
 };
 
 const recipes = base.recipes;
-const recipe = [base.recipes, routeIds.recipe].join("/");
-
+const recipe = [base.recipes, prependColon(routeIds.recipe)].join("/");
 const reviews = [recipe, base.reviews].join("/");
-const review = [reviews, routeIds.review].join("/");
-
 const categories = [recipe, base.categories].join("/");
-const category = [categories, routeIds.category].join("/");
 
 export const routes = {
-  recipes,
-  recipe,
-  reviews,
-  review,
-  category,
-  categories,
+  recipes: createUrl([recipes]),
+  recipe: createUrl([recipes, prependColon(routeIds.recipe)]),
+  reviews: createUrl([recipe, base.reviews]),
+  review: createUrl([reviews, prependColon(routeIds.review)]),
+  categories: createUrl([recipe, base.categories]),
+  category: createUrl([categories, prependColon(routeIds.category)]),
 };
