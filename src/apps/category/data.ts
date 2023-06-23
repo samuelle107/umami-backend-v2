@@ -31,6 +31,8 @@ export async function addRecipeCategory(
 ) {
   if (!category) throw Error("No category found");
 
+  // Create or update with nothing
+  // Essentially create or do nothing if it exists already
   const recipeCategory = await prisma.recipeCategory.upsert({
     update: {},
     where: {
