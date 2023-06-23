@@ -14,7 +14,7 @@ describe("review.service", () => {
       expect(
         createRecipeReview("1", {
           rating: 4,
-        })
+        } as any)
       ).resolves.toEqual({
         comment: null,
         id: 1,
@@ -24,14 +24,14 @@ describe("review.service", () => {
     });
 
     it("fails to create w/ no input", () => {
-      expect(createRecipeReview("1", {})).rejects.toThrow();
+      expect(createRecipeReview("1", {} as any)).rejects.toThrow();
     });
 
     it("fails to create w/ too high rating", () => {
       expect(
         createRecipeReview("1", {
           rating: 6,
-        })
+        } as any)
       ).rejects.toThrow();
     });
 
@@ -39,7 +39,7 @@ describe("review.service", () => {
       expect(
         createRecipeReview("1", {
           rating: -1,
-        })
+        } as any)
       ).rejects.toThrow();
     });
   });

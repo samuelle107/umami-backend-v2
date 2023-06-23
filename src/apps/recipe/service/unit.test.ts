@@ -23,7 +23,7 @@ describe("recipe.service", () => {
     });
 
     test("should fail to create recipe w/o name", async () => {
-      expect(createRecipe({})).rejects.toThrow();
+      expect(createRecipe({} as any)).rejects.toThrow();
     });
 
     test("should fail with empty name", () => {
