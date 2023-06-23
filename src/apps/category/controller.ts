@@ -1,18 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-
+import { addCategory, addRecipeCategory, getAllRecipeCategories } from "./data";
 import { Category } from "@prisma/client";
-import prisma from "../../utils/client";
 import { routeIds } from "../../utils/routes";
 
 export async function getRecipeCategories(req: Request, res: Response) {
   const recipeId = Number(req.params[routeIds.recipe]);
 
   try {
-    const recipeCategories = await prisma.recipeCategory.findMany({
-      where: {
-        recipeId: recipeId,
-      },
-    });
+    const recipeCategories = await getAllRecipeCategories(recipeId);
 
     res.send(recipeCategories);
   } catch (err) {
@@ -26,7 +21,7 @@ export async function getRecipeCategories(req: Request, res: Response) {
  * @param res
  * @param next Sends the created/found category to the next function (addRecipeCategory)
  */
-export async function addCategory(
+export async function postCategory(
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,15 +29,7 @@ export async function addCategory(
   const newCategoryName: string = req.body.category;
 
   try {
-    const category = await prisma.category.upsert({
-      where: {
-        category: newCategoryName,
-      },
-      update: {},
-      create: {
-        category: newCategoryName,
-      },
-    });
+    const category = await addCategory(newCategoryName);
 
     res.locals.category = category;
   } catch (err) {
@@ -52,7 +39,7 @@ export async function addCategory(
   next();
 }
 
-export async function addRecipeCategory(req: Request, res: Response) {
+export async function getRecipeCategory(req: Request, res: Response) {
   const category: Category | undefined = res.locals.category;
   const recipeId = Number(req.params[routeIds.recipe]);
 
@@ -61,19 +48,7 @@ export async function addRecipeCategory(req: Request, res: Response) {
 
     // Create or update with nothing
     // Essentially create or do nothing if it exists already
-    const recipeCategory = await prisma.recipeCategory.upsert({
-      update: {},
-      where: {
-        recipeId_categoryId: {
-          recipeId: recipeId,
-          categoryId: category.id,
-        },
-      },
-      create: {
-        categoryId: category.id,
-        recipeId: recipeId,
-      },
-    });
+    const recipeCategory = await addRecipeCategory(recipeId, category);
 
     res.send(recipeCategory);
   } catch (err) {
