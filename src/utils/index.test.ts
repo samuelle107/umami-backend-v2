@@ -11,21 +11,21 @@ describe("validate ID", () => {
     });
 
     it("parses 101235123", () => {
-      expect(validateId("0")).toEqual(101235123);
+      expect(validateId("101235123")).toEqual(101235123);
     });
   });
 
   describe("it cannot parse non-numbers", () => {
     test("null", () => {
-      expect(validateId("null")).toThrow();
+      expect(() => validateId("null")).toThrow();
     });
 
     test("abc", () => {
-      expect(validateId("abc")).toThrow();
+      expect(() => validateId("abc")).toThrow();
     });
 
     test("undefined", () => {
-      expect(validateId(undefined)).toThrow();
+      expect(() => validateId(undefined)).toThrow();
     });
   });
 });
