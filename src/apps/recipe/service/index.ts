@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { Request } from "express";
 
 import { validateId } from "../../../utils";
 import RecipeDAO from "../recipe.dao";
@@ -17,7 +18,7 @@ export async function retrieveRecipe(recipeId: string | undefined) {
   return recipe;
 }
 
-export async function createRecipe(body: Record<string, any>) {
+export async function createRecipe(body: Prisma.RecipeCreateInput) {
   const newRecipe: Prisma.RecipeCreateInput = {
     imageUrl: body.imageUrl,
     name: body.name,
