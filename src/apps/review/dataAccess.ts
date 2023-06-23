@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../../utils/client";
 
-export async function retrieveRecipeReviews(recipeId: number) {
+async function retrieveRecipeReviews(recipeId: number) {
   const reviews = await prisma.review.findMany({
     where: {
       recipeId: recipeId,
@@ -11,7 +11,7 @@ export async function retrieveRecipeReviews(recipeId: number) {
   return reviews;
 }
 
-export async function retrieveRecipeReview(reviewId: number) {
+async function retrieveRecipeReview(reviewId: number) {
   const review = await prisma.review.findUnique({
     where: {
       id: Number(reviewId),
@@ -21,10 +21,18 @@ export async function retrieveRecipeReview(reviewId: number) {
   return review;
 }
 
-export async function createRecipeReview(data: Prisma.ReviewCreateInput) {
+async function createRecipeReview(data: Prisma.ReviewCreateInput) {
   const review = await prisma.review.create({
     data,
   });
 
   return review;
 }
+
+const reviewRepository = {
+  retrieveRecipeReview,
+  retrieveRecipeReviews,
+  createRecipeReview,
+};
+
+export default reviewRepository;

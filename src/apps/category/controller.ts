@@ -3,15 +3,15 @@ import {
   createCategory,
   createRecipeCategory,
   retrieveRecipeCategories,
-} from "./data";
+} from "./domain";
 import { Category } from "@prisma/client";
 import { routeIds } from "../../utils/routes";
 
 export async function getRecipeCategories(req: Request, res: Response) {
-  const recipeId = Number(req.params[routeIds.recipe]);
-
   try {
-    const recipeCategories = await retrieveRecipeCategories(recipeId);
+    const recipeCategories = await retrieveRecipeCategories(
+      req.params[routeIds.recipe]
+    );
 
     res.send(recipeCategories);
   } catch (err) {
@@ -45,12 +45,12 @@ export async function postCategory(
 
 export async function getRecipeCategory(req: Request, res: Response) {
   const category: Category | undefined = res.locals.category;
-  const recipeId = Number(req.params[routeIds.recipe]);
 
   try {
-    if (!category) throw Error("No category found");
-
-    const recipeCategory = await createRecipeCategory(recipeId, category);
+    const recipeCategory = await createRecipeCategory(
+      req.params[routeIds.recipe],
+      category
+    );
 
     res.send(recipeCategory);
   } catch (err) {

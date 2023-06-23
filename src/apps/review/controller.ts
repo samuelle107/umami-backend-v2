@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import {
-  createPostReview,
+  createRecipeReview,
   retrieveRecipeReview,
   retrieveRecipeReviews,
-} from "./data";
-import { Prisma } from "@prisma/client";
+} from "./domain";
+
 import { routeIds } from "../../utils/routes";
 
 export async function getRecipeReviews(req: Request, res: Response) {
-  const recipeId: number | undefined = Number(req.params[routeIds.recipe]);
+  const recipeId = req.params[routeIds.recipe];
 
   try {
     const reviews = await retrieveRecipeReviews(recipeId);
@@ -22,7 +22,7 @@ export async function getRecipeReviews(req: Request, res: Response) {
 }
 
 export async function getRecipeReview(req: Request, res: Response) {
-  const reviewId: number | undefined = Number(req.params[routeIds.review]);
+  const reviewId = req.params[routeIds.review];
 
   try {
     const review = await retrieveRecipeReview(reviewId);
@@ -42,20 +42,11 @@ export async function getRecipeReview(req: Request, res: Response) {
  * https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
  */
 export async function postRecipeReview(req: Request, res: Response) {
-  const recipeId = Number(req.params[routeIds.recipe]);
-
-  const data: Prisma.ReviewCreateInput = {
-    comment: req.body.comment,
-    rating: req.body.rating,
-    recipe: {
-      connect: {
-        id: recipeId,
-      },
-    },
-  };
-
   try {
-    const review = await createPostReview(data);
+    const review = await createRecipeReview(
+      req.params[routeIds.recipe],
+      req.body
+    );
 
     res.send(review);
   } catch (err) {

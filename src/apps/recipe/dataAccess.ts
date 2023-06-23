@@ -1,13 +1,13 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../../utils/client";
 
-export async function retrieveRecipes() {
+async function retrieveRecipes() {
   const recipes = await prisma.recipe.findMany();
 
   return recipes;
 }
 
-export async function retrieveRecipe(recipeId: number) {
+async function retrieveRecipe(recipeId: number) {
   const recipe = await prisma.recipe.findUnique({
     where: {
       id: recipeId,
@@ -31,7 +31,7 @@ export async function retrieveRecipe(recipeId: number) {
   return recipe;
 }
 
-export async function createRecipe(data: Prisma.RecipeCreateInput) {
+async function createRecipe(data: Prisma.RecipeCreateInput) {
   const recipe = await prisma.recipe.create({
     data,
   });
@@ -39,7 +39,7 @@ export async function createRecipe(data: Prisma.RecipeCreateInput) {
   return recipe;
 }
 
-export async function removeRecipe(recipeId: number) {
+async function removeRecipe(recipeId: number) {
   const recipe = await prisma.recipe.delete({
     where: {
       id: recipeId,
@@ -48,3 +48,12 @@ export async function removeRecipe(recipeId: number) {
 
   return recipe;
 }
+
+const recipeRepository = {
+  retrieveRecipe,
+  retrieveRecipes,
+  createRecipe,
+  removeRecipe,
+};
+
+export default recipeRepository;

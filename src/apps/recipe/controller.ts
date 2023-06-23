@@ -4,9 +4,7 @@ import {
   removeRecipe,
   retrieveRecipe,
   retrieveRecipes,
-} from "./data";
-import { Prisma } from "@prisma/client";
-
+} from "./domain";
 import { routeIds } from "../../utils/routes";
 
 export async function getRecipes(_req: Request, res: Response) {
@@ -22,28 +20,22 @@ export async function getRecipes(_req: Request, res: Response) {
 }
 
 export async function getRecipe(req: Request, res: Response) {
-  const recipeId: number | undefined = Number(req.params[routeIds.recipe]);
+  const id = req.params[routeIds.recipe];
 
   try {
-    const recipe = await retrieveRecipe(recipeId);
+    const recipe = await retrieveRecipe(id);
 
     res.send(recipe);
   } catch (err) {
     res.status(404).send({
-      message: `Recipe ${recipeId} not found`,
+      message: `Recipe ${id} not found`,
     });
   }
 }
 
 export async function postRecipe(req: Request, res: Response) {
-  const data: Prisma.RecipeCreateInput = {
-    imageUrl: req.body.image_url,
-    name: req.body.name,
-    srcUrl: req.body.src_url,
-  };
-
   try {
-    const recipe = await createRecipe(data);
+    const recipe = await createRecipe(req.body);
 
     if (recipe) {
       res.send(recipe);
@@ -56,10 +48,8 @@ export async function postRecipe(req: Request, res: Response) {
 }
 
 export async function deleteRecipe(req: Request, res: Response) {
-  const id: number | undefined = Number(req.params[routeIds.recipe]);
-
   try {
-    const recipe = await removeRecipe(id);
+    const recipe = await removeRecipe(req.params[routeIds.recipe]);
 
     res.send({
       message: `Successfully deleted recipe ${recipe.id}`,

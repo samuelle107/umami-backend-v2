@@ -1,7 +1,7 @@
 import { Category } from "@prisma/client";
 import prisma from "../../utils/client";
 
-export async function retrieveRecipeCategories(recipeId: number) {
+async function retrieveRecipeCategories(recipeId: number) {
   const recipeCategories = await prisma.recipeCategory.findMany({
     where: {
       recipeId: recipeId,
@@ -11,7 +11,7 @@ export async function retrieveRecipeCategories(recipeId: number) {
   return recipeCategories;
 }
 
-export async function createCategory(newCategory: string) {
+async function createCategory(newCategory: string) {
   const category = await prisma.category.upsert({
     where: {
       category: newCategory,
@@ -25,12 +25,7 @@ export async function createCategory(newCategory: string) {
   return category;
 }
 
-export async function createRecipeCategory(
-  recipeId: number,
-  category: Category | undefined
-) {
-  if (!category) throw Error("No category found");
-
+async function createRecipeCategory(recipeId: number, category: Category) {
   // Create or update with nothing
   // Essentially create or do nothing if it exists already
   const recipeCategory = await prisma.recipeCategory.upsert({
@@ -49,3 +44,11 @@ export async function createRecipeCategory(
 
   return recipeCategory;
 }
+
+const categoryRepository = {
+  retrieveRecipeCategories,
+  createCategory,
+  createRecipeCategory,
+};
+
+export default categoryRepository;
