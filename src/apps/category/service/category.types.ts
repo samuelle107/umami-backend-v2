@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
 
 export type CategoryCreate = Omit<
   Prisma.CategoryCreateInput,
-  "recipeCategories"
+  'recipeCategories'
 >;

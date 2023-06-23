@@ -1,12 +1,12 @@
-import { Prisma } from "@prisma/client";
-import { Request, Response } from "express";
+import { Prisma } from '@prisma/client';
+import { Request, Response } from 'express';
 
-import { routeIds } from "../../utils/routes";
+import { routeIds } from '../../utils/routes';
 import {
   createRecipeReview,
   retrieveRecipeReview,
   retrieveRecipeReviews,
-} from "./service";
+} from './service';
 
 export async function getRecipeReviews(
   req: Request<{ [routeIds.recipe]: string }>,
@@ -66,7 +66,7 @@ export async function postRecipeReview(
   } catch (err) {
     console.log(err);
     res.status(400).send({
-      message: "Could not create review",
+      message: 'Could not create review',
     });
   }
 }

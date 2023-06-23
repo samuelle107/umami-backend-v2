@@ -1,9 +1,9 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
 
-import { validateId } from "../../../utils";
-import ReviewDAO from "../review.dao";
-import reviewCreateSchema from "./review.schema";
-import { ReviewCreate } from "./review.types";
+import { validateId } from '../../../utils';
+import ReviewDAO from '../review.dao';
+import reviewCreateSchema from './review.schema';
+import { ReviewCreate } from './review.types';
 
 export async function retrieveRecipeReviews(recipeId: string | undefined) {
   const reviews = ReviewDAO.retrieveRecipeReviews(validateId(recipeId));

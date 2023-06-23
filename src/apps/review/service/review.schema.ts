@@ -1,6 +1,6 @@
-import { number, object, ObjectSchema, string } from "yup";
+import { number, object, ObjectSchema, string } from 'yup';
 
-import { ReviewCreate } from "./review.types";
+import { ReviewCreate } from './review.types';
 
 const reviewCreateSchema: ObjectSchema<ReviewCreate> = object({
   comment: string().max(512),

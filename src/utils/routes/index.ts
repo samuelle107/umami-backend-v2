@@ -1,21 +1,21 @@
-import { createUrl, prependColon } from "./helper";
+import { createUrl, prependColon } from './helper';
 
 export const routeIds = {
-  review: "reviewId",
-  recipe: "recipeId",
-  category: "categoryId",
+  review: 'reviewId',
+  recipe: 'recipeId',
+  category: 'categoryId',
 } as const;
 
 const base = {
-  recipes: "recipes",
-  reviews: "reviews",
-  categories: "categories",
+  recipes: 'recipes',
+  reviews: 'reviews',
+  categories: 'categories',
 };
 
 const recipes = base.recipes;
-const recipe = [base.recipes, prependColon(routeIds.recipe)].join("/");
-const reviews = [recipe, base.reviews].join("/");
-const categories = [recipe, base.categories].join("/");
+const recipe = [base.recipes, prependColon(routeIds.recipe)].join('/');
+const reviews = [recipe, base.reviews].join('/');
+const categories = [recipe, base.categories].join('/');
 
 export const routes = {
   recipes: createUrl([recipes]),

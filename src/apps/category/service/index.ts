@@ -1,9 +1,9 @@
-import { Category } from "@prisma/client";
+import { Category } from '@prisma/client';
 
-import { validateId } from "../../../utils";
-import CategoryDAO from "../category.dao";
-import { categoryCreateSchema } from "./category.schema";
-import { CategoryCreate } from "./category.types";
+import { validateId } from '../../../utils';
+import CategoryDAO from '../category.dao';
+import { categoryCreateSchema } from './category.schema';
+import { CategoryCreate } from './category.types';
 
 export async function retrieveRecipeCategories(recipeId: string | undefined) {
   const recipeCategories = await CategoryDAO.retrieveRecipeCategories(
@@ -26,7 +26,7 @@ export async function createRecipeCategory(
   recipeId: string | undefined,
   category: Category | undefined
 ) {
-  if (!category) throw Error("No category found");
+  if (!category) throw Error('No category found');
 
   const recipeCategory = await CategoryDAO.createRecipeCategory(
     validateId(recipeId),

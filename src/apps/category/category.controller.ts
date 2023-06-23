@@ -1,13 +1,13 @@
-import { Category, RecipeCategory } from "@prisma/client";
-import { NextFunction, Request, Response } from "express";
+import { Category, RecipeCategory } from '@prisma/client';
+import { NextFunction, Request, Response } from 'express';
 
-import { routeIds } from "../../utils/routes";
+import { routeIds } from '../../utils/routes';
 import {
   createCategory,
   createRecipeCategory,
   retrieveRecipeCategories,
-} from "./service";
-import { CategoryCreate } from "./service/category.types";
+} from './service';
+import { CategoryCreate } from './service/category.types';
 
 export async function getRecipeCategories(
   req: Request<{
@@ -74,7 +74,7 @@ export async function getRecipeCategory(
   } catch (err) {
     console.log(err);
     res.send({
-      message: "Unable to create category",
+      message: 'Unable to create category',
     });
   }
 }

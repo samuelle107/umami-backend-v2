@@ -1,9 +1,9 @@
-import { prismaMock } from "../../../utils/client/singleton";
-import { createRecipeReview } from ".";
+import { prismaMock } from '../../../utils/client/singleton';
+import { createRecipeReview } from '.';
 
-describe("review.service", () => {
-  describe("creating review", () => {
-    it("creates a review", () => {
+describe('review.service', () => {
+  describe('creating review', () => {
+    it('creates a review', () => {
       prismaMock.review.create.mockResolvedValue({
         id: 1,
         rating: 4,
@@ -12,7 +12,7 @@ describe("review.service", () => {
       });
 
       expect(
-        createRecipeReview("1", {
+        createRecipeReview('1', {
           rating: 4,
         } as any)
       ).resolves.toEqual({
@@ -23,21 +23,21 @@ describe("review.service", () => {
       });
     });
 
-    it("fails to create w/ no input", () => {
-      expect(createRecipeReview("1", {} as any)).rejects.toThrow();
+    it('fails to create w/ no input', () => {
+      expect(createRecipeReview('1', {} as any)).rejects.toThrow();
     });
 
-    it("fails to create w/ too high rating", () => {
+    it('fails to create w/ too high rating', () => {
       expect(
-        createRecipeReview("1", {
+        createRecipeReview('1', {
           rating: 6,
         } as any)
       ).rejects.toThrow();
     });
 
-    it("fails to create w/ negative rating", () => {
+    it('fails to create w/ negative rating', () => {
       expect(
-        createRecipeReview("1", {
+        createRecipeReview('1', {
           rating: -1,
         } as any)
       ).rejects.toThrow();

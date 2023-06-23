@@ -1,9 +1,9 @@
-import bodyParser from "body-parser";
-import express from "express";
+import bodyParser from 'body-parser';
+import express from 'express';
 
-import recipeCategoryRouter from "./apps/category/category.router";
-import recipeRouter from "./apps/recipe/recipe.router";
-import recipeReviewRouter from "./apps/review/review.router";
+import recipeCategoryRouter from './apps/category/category.router';
+import recipeRouter from './apps/recipe/recipe.router';
+import recipeReviewRouter from './apps/review/review.router';
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(recipeCategoryRouter);
 
 // Fallback
 app.use((_req, res) => {
-  res.send("Unsupported endpoint");
+  res.send('Unsupported endpoint');
 });
 
 export default app;

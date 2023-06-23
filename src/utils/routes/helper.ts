@@ -7,5 +7,5 @@ export function prependColon(id: string) {
 }
 
 export function createUrl(routes: string[]) {
-  return sandwich(routes.join("/"));
+  return sandwich(routes.join('/'));
 }

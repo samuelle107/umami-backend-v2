@@ -1,6 +1,6 @@
-import { object, ObjectSchema, string } from "yup";
+import { object, ObjectSchema, string } from 'yup';
 
-import { RecipeCreate } from "./recipe.types";
+import { RecipeCreate } from './recipe.types';
 
 const recipeCreateSchema: ObjectSchema<RecipeCreate> = object({
   name: string().required().max(255),

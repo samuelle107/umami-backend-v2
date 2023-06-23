@@ -1,7 +1,7 @@
-import express from "express";
+import express from 'express';
 
-import { routes } from "../../utils/routes";
-import * as controller from "./review.controller";
+import { routes } from '../../utils/routes';
+import * as controller from './review.controller';
 
 const recipeReviewRouter = express.Router();
 

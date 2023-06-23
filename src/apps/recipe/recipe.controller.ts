@@ -1,13 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { routeIds } from "../../utils/routes";
+import { routeIds } from '../../utils/routes';
 import {
   createRecipe,
   removeRecipe,
   retrieveRecipe,
   retrieveRecipes,
-} from "./service";
-import { RecipeCreate } from "./service/recipe.types";
+} from './service';
+import { RecipeCreate } from './service/recipe.types';
 
 export async function getRecipes(_req: Request, res: Response) {
   try {
@@ -16,7 +16,7 @@ export async function getRecipes(_req: Request, res: Response) {
     res.send(recipes);
   } catch (err) {
     res.send({
-      message: "Failed to retrieve all recipes",
+      message: 'Failed to retrieve all recipes',
     });
   }
 }
@@ -50,7 +50,7 @@ export async function postRecipe(
     }
   } catch (err) {
     res.status(400).send({
-      message: "Failed to create recipe",
+      message: 'Failed to create recipe',
     });
   }
 }
@@ -67,7 +67,7 @@ export async function deleteRecipe(
     });
   } catch (err) {
     res.status(400).send({
-      message: "Failed to delete recipe",
+      message: 'Failed to delete recipe',
     });
   }
 }
