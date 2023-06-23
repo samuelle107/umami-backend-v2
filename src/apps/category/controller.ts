@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { addCategory, addRecipeCategory, getAllRecipeCategories } from "./data";
+import {
+  createCategory,
+  createRecipeCategory,
+  retrieveRecipeCategories,
+} from "./data";
 import { Category } from "@prisma/client";
 import { routeIds } from "../../utils/routes";
 
@@ -7,7 +11,7 @@ export async function getRecipeCategories(req: Request, res: Response) {
   const recipeId = Number(req.params[routeIds.recipe]);
 
   try {
-    const recipeCategories = await getAllRecipeCategories(recipeId);
+    const recipeCategories = await retrieveRecipeCategories(recipeId);
 
     res.send(recipeCategories);
   } catch (err) {
@@ -29,7 +33,7 @@ export async function postCategory(
   const newCategoryName: string = req.body.category;
 
   try {
-    const category = await addCategory(newCategoryName);
+    const category = await createCategory(newCategoryName);
 
     res.locals.category = category;
   } catch (err) {
@@ -46,9 +50,7 @@ export async function getRecipeCategory(req: Request, res: Response) {
   try {
     if (!category) throw Error("No category found");
 
-    // Create or update with nothing
-    // Essentially create or do nothing if it exists already
-    const recipeCategory = await addRecipeCategory(recipeId, category);
+    const recipeCategory = await createRecipeCategory(recipeId, category);
 
     res.send(recipeCategory);
   } catch (err) {

@@ -12,6 +12,6 @@ recipeRouter
 recipeRouter
   .route(routes.recipes)
   .get(controller.getRecipes)
-  .post(controller.addRecipe);
+  .post(controller.postRecipe);
 
 export default recipeRouter;

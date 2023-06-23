@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
+import {
+  createRecipe,
+  removeRecipe,
+  retrieveRecipe,
+  retrieveRecipes,
+} from "./data";
 import { Prisma } from "@prisma/client";
 
-import prisma from "../../utils/client";
 import { routeIds } from "../../utils/routes";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {
-    const recipes = await prisma.recipe.findMany();
+    const recipes = await retrieveRecipes();
 
     res.send(recipes);
   } catch (err) {
@@ -17,52 +22,28 @@ export async function getRecipes(_req: Request, res: Response) {
 }
 
 export async function getRecipe(req: Request, res: Response) {
-  const id: string | undefined = req.params[routeIds.recipe];
-
-  console.log(req.params, routeIds.recipe);
+  const recipeId: number | undefined = Number(req.params[routeIds.recipe]);
 
   try {
-    const recipe = await prisma.recipe.findUnique({
-      where: {
-        id: Number(id),
-      },
-      include: {
-        recipeCategories: {
-          select: {
-            category: true,
-          },
-        },
-        reviews: {
-          select: {
-            id: true,
-            rating: true,
-            comment: true,
-          },
-        },
-      },
-    });
+    const recipe = await retrieveRecipe(recipeId);
 
     res.send(recipe);
   } catch (err) {
     res.status(404).send({
-      message: `Recipe ${id} not found`,
+      message: `Recipe ${recipeId} not found`,
     });
   }
 }
 
-export async function addRecipe(req: Request, res: Response) {
+export async function postRecipe(req: Request, res: Response) {
   const data: Prisma.RecipeCreateInput = {
     imageUrl: req.body.image_url,
     name: req.body.name,
     srcUrl: req.body.src_url,
   };
 
-  // TODO: Add schema validation here
-
   try {
-    const recipe = await prisma.recipe.create({
-      data,
-    });
+    const recipe = await createRecipe(data);
 
     if (recipe) {
       res.send(recipe);
@@ -75,17 +56,13 @@ export async function addRecipe(req: Request, res: Response) {
 }
 
 export async function deleteRecipe(req: Request, res: Response) {
-  const id: string | undefined = req.params[routeIds.recipe];
+  const id: number | undefined = Number(req.params[routeIds.recipe]);
 
   try {
-    await prisma.recipe.delete({
-      where: {
-        id: Number(id),
-      },
-    });
+    const recipe = await removeRecipe(id);
 
     res.send({
-      message: `Successfully deleted recipe ${id}`,
+      message: `Successfully deleted recipe ${recipe.id}`,
     });
   } catch (err) {
     res.status(400).send({

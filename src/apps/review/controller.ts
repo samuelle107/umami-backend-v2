@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
+import {
+  createPostReview,
+  retrieveRecipeReview,
+  retrieveRecipeReviews,
+} from "./data";
 import { Prisma } from "@prisma/client";
-import prisma from "../../utils/client";
 import { routeIds } from "../../utils/routes";
 
 export async function getRecipeReviews(req: Request, res: Response) {
-  const recipeId: string | undefined = req.params[routeIds.recipe];
+  const recipeId: number | undefined = Number(req.params[routeIds.recipe]);
 
   try {
-    const review = await prisma.review.findMany({
-      where: {
-        recipeId: Number(recipeId),
-      },
-    });
+    const reviews = await retrieveRecipeReviews(recipeId);
 
-    res.send(review);
+    res.send(reviews);
   } catch (err) {
     res.status(404).send({
       message: `Could not find reviews for recipe ${recipeId}`,
@@ -22,14 +22,10 @@ export async function getRecipeReviews(req: Request, res: Response) {
 }
 
 export async function getRecipeReview(req: Request, res: Response) {
-  const reviewId: string | undefined = req.params[routeIds.review];
+  const reviewId: number | undefined = Number(req.params[routeIds.review]);
 
   try {
-    const review = await prisma.review.findUnique({
-      where: {
-        id: Number(reviewId),
-      },
-    });
+    const review = await retrieveRecipeReview(reviewId);
 
     res.send(review);
   } catch (err) {
@@ -45,7 +41,7 @@ export async function getRecipeReview(req: Request, res: Response) {
  * @param res
  * https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
  */
-export async function addRecipeReview(req: Request, res: Response) {
+export async function postRecipeReview(req: Request, res: Response) {
   const recipeId = Number(req.params[routeIds.recipe]);
 
   const data: Prisma.ReviewCreateInput = {
@@ -59,9 +55,7 @@ export async function addRecipeReview(req: Request, res: Response) {
   };
 
   try {
-    const review = await prisma.review.create({
-      data,
-    });
+    const review = await createPostReview(data);
 
     res.send(review);
   } catch (err) {
