@@ -12,18 +12,17 @@ model Recipe {
   name           String           @db.VarChar(255)
   imageUrl       String?          @db.VarChar(255)
   srcUrl         String?          @db.VarChar(255)
-  recipeCategory RecipeCategory[]
-  review         Review[]
+  recipeCategories RecipeCategory[]
+  reviews         Review[]
 }
 
 model Category {
   id             Int              @id @default(autoincrement())
-  category       String           @db.VarChar(255)
-  recipeCategory RecipeCategory[]
+  category       String           @unique(map: "Category_category_unique") @db.VarChar(255)
+  recipeCategories RecipeCategory[]
 }
 
 model RecipeCategory {
-  id         Int      @default(autoincrement())
   recipeId   Int
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)

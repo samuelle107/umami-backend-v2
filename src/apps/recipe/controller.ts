@@ -24,14 +24,22 @@ export async function getRecipe(req: Request, res: Response) {
         id: Number(id),
       },
       include: {
-        recipeCategory: true,
-        review: true,
+        recipeCategories: {
+          select: {
+            category: true,
+          },
+        },
+        reviews: {
+          select: {
+            id: true,
+            rating: true,
+            comment: true,
+          },
+        },
       },
     });
 
-    if (recipe) {
-      res.send(recipe);
-    }
+    res.send(recipe);
   } catch (err) {
     res.status(404).send({
       message: `Recipe ${id} not found`,

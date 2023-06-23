@@ -1,7 +1,25 @@
 import { Request, Response } from "express";
-import { Prisma } from "@prisma/client";
 
 import prisma from "../../utils/client";
+
+export async function findOrCreateCategory(categoryName: string) {
+  try {
+    const category = await prisma.category.upsert({
+      where: {
+        category: categoryName,
+      },
+      update: {},
+      create: {
+        category: categoryName,
+      },
+    });
+
+    return category;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
 
 export async function getRecipeCategories(req: Request, res: Response) {
   const recipeId = Number(req.params.id);
@@ -19,45 +37,34 @@ export async function getRecipeCategories(req: Request, res: Response) {
   }
 }
 
-// TODO: Look into optimizing this
 export async function addRecipeCategory(req: Request, res: Response) {
-  const newCategory: string = req.body.category;
+  const newCategoryName: string = req.body.category;
   const recipeId = Number(req.params.id);
 
   try {
-    const foundCategory = await prisma.category.findFirst({
+    const category = await findOrCreateCategory(newCategoryName);
+
+    // Create or update with nothing
+    // Essentially create or do nothing if it exists already
+    const recipeCategory = await prisma.recipeCategory.upsert({
+      update: {},
       where: {
-        category: {
-          equals: newCategory,
+        recipeId_categoryId: {
+          recipeId: recipeId,
+          categoryId: category.id,
         },
       },
-    });
-
-    const data: Prisma.RecipeCategoryCreateInput = {
-      category: {
-        connectOrCreate: {
-          create: {
-            category: newCategory,
-          },
-          where: {
-            id: foundCategory?.id ?? undefined,
-          },
-        },
+      create: {
+        categoryId: category.id,
+        recipeId: recipeId,
       },
-      recipe: {
-        connect: {
-          id: recipeId,
-        },
-      },
-    };
-
-    const recipeCategory = await prisma.recipeCategory.create({
-      data: data,
     });
 
     res.send(recipeCategory);
   } catch (err) {
     console.log(err);
-    res.send();
+    res.send({
+      message: "Unable to create category",
+    });
   }
 }
