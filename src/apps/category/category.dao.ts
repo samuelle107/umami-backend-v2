@@ -1,6 +1,7 @@
 import { Category } from "@prisma/client";
 
 import prisma from "../../utils/client";
+import { CategoryCreate } from "./service/category.types";
 
 async function retrieveRecipeCategories(recipeId: number) {
   const recipeCategories = await prisma.recipeCategory.findMany({
@@ -12,15 +13,13 @@ async function retrieveRecipeCategories(recipeId: number) {
   return recipeCategories;
 }
 
-async function createCategory(newCategory: string) {
+async function createCategory(newCategory: CategoryCreate) {
   const category = await prisma.category.upsert({
     where: {
-      category: newCategory,
+      category: newCategory.category,
     },
     update: {},
-    create: {
-      category: newCategory,
-    },
+    create: newCategory,
   });
 
   return category;

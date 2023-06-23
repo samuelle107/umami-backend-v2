@@ -2,19 +2,24 @@ import { Category } from "@prisma/client";
 
 import { validateId } from "../../../utils";
 import CategoryDAO from "../category.dao";
+import { categoryCreateSchema } from "./category.schema";
+import { CategoryCreate } from "./category.types";
 
 export async function retrieveRecipeCategories(recipeId: string | undefined) {
-  const parsedRecipeId = validateId(recipeId);
-
   const recipeCategories = await CategoryDAO.retrieveRecipeCategories(
-    parsedRecipeId
+    validateId(recipeId)
   );
 
   return recipeCategories;
 }
 
-export async function createCategory(categoryName: string) {
-  return await CategoryDAO.createCategory(categoryName);
+export async function createCategory(body: CategoryCreate) {
+  await categoryCreateSchema.validate(body);
+
+  const newCategory = categoryCreateSchema.cast(body, { stripUnknown: true });
+  const category = await CategoryDAO.createCategory(newCategory);
+
+  return category;
 }
 
 export async function createRecipeCategory(
@@ -23,9 +28,8 @@ export async function createRecipeCategory(
 ) {
   if (!category) throw Error("No category found");
 
-  const parsedRecipeId = validateId(recipeId);
   const recipeCategory = await CategoryDAO.createRecipeCategory(
-    parsedRecipeId,
+    validateId(recipeId),
     category
   );
 

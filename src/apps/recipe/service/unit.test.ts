@@ -9,6 +9,7 @@ describe("recipe.service", () => {
         imageUrl: "",
         name: "Noodles",
         srcUrl: "",
+        description: "",
       };
 
       prismaMock.recipe.create.mockResolvedValue(resolvedData);
@@ -38,6 +39,7 @@ describe("recipe.service", () => {
         imageUrl: "",
         name: "test",
         srcUrl: "",
+        description: "",
       });
 
       expect(removeRecipe("1")).resolves.toEqual(1);

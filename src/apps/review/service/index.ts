@@ -3,38 +3,35 @@ import { Prisma } from "@prisma/client";
 import { validateId } from "../../../utils";
 import ReviewDAO from "../review.dao";
 import reviewCreateSchema from "./review.schema";
+import { ReviewCreate } from "./review.types";
 
 export async function retrieveRecipeReviews(recipeId: string | undefined) {
-  const validatedId = validateId(recipeId);
-  const reviews = ReviewDAO.retrieveRecipeReviews(validatedId);
+  const reviews = ReviewDAO.retrieveRecipeReviews(validateId(recipeId));
 
   return reviews;
 }
 
 export async function retrieveRecipeReview(reviewId: string | undefined) {
-  const validatedId = validateId(reviewId);
-  const review = await ReviewDAO.retrieveRecipeReview(validatedId);
+  const review = await ReviewDAO.retrieveRecipeReview(validateId(reviewId));
 
   return review;
 }
 
 export async function createRecipeReview(
   recipeId: string | undefined,
-  body: Prisma.ReviewCreateInput
+  body: ReviewCreate
 ) {
-  const validatedId = validateId(recipeId);
+  await reviewCreateSchema.validate(body);
 
+  const newReview = reviewCreateSchema.cast(body, { stripUnknown: true });
   const data: Prisma.ReviewCreateInput = {
-    comment: body.comment,
-    rating: body.rating,
+    ...newReview,
     recipe: {
       connect: {
-        id: validatedId,
+        id: validateId(recipeId),
       },
     },
   };
-
-  await reviewCreateSchema.validate(data);
 
   const review = ReviewDAO.createRecipeReview(data);
 

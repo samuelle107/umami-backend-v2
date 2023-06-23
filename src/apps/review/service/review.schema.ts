@@ -1,9 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { number, object, ObjectSchema, string } from "yup";
 
-type ServiceSchema = ObjectSchema<Omit<Prisma.ReviewCreateInput, "recipe">>;
+import { ReviewCreate } from "./review.types";
 
-const reviewCreateSchema: ServiceSchema = object({
+const reviewCreateSchema: ObjectSchema<ReviewCreate> = object({
   comment: string().max(512),
   rating: number().min(0).max(5).required(),
 });

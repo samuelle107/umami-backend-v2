@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 
 import { routeIds } from "../../utils/routes";
@@ -8,6 +7,7 @@ import {
   retrieveRecipe,
   retrieveRecipes,
 } from "./service";
+import { RecipeCreate } from "./service/recipe.types";
 
 export async function getRecipes(_req: Request, res: Response) {
   try {
@@ -39,7 +39,7 @@ export async function getRecipe(
 }
 
 export async function postRecipe(
-  req: Request<undefined, undefined, Prisma.RecipeCreateInput>,
+  req: Request<undefined, undefined, RecipeCreate>,
   res: Response
 ) {
   try {

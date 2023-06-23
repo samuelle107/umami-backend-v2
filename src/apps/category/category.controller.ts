@@ -7,6 +7,7 @@ import {
   createRecipeCategory,
   retrieveRecipeCategories,
 } from "./service";
+import { CategoryCreate } from "./service/category.types";
 
 export async function getRecipeCategories(
   req: Request<{
@@ -32,20 +33,12 @@ export async function getRecipeCategories(
  * @param next Sends the created/found category to the next function (addRecipeCategory)
  */
 export async function postCategory(
-  req: Request<
-    undefined,
-    undefined,
-    {
-      category: string;
-    }
-  >,
+  req: Request<undefined, undefined, CategoryCreate>,
   res: Response<void>,
   next: NextFunction
 ) {
-  const newCategoryName: string = req.body.category;
-
   try {
-    const category = await createCategory(newCategoryName);
+    const category = await createCategory(req.body);
 
     res.locals.category = category;
   } catch (err) {
