@@ -46,10 +46,10 @@ async function createRecipeCategory(recipeId: number, category: Category) {
   return recipeCategory;
 }
 
-const categoryRepository = {
+const categoryService = {
   retrieveRecipeCategories,
   createCategory,
   createRecipeCategory,
 };
 
-export default categoryRepository;
+export default categoryService;

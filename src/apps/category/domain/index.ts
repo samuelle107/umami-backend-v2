@@ -1,12 +1,12 @@
 import { Category } from "@prisma/client";
 
 import { validateId } from "../../..//utils";
-import categoryRepository from "../dataAccess";
+import categoryService from "../category.service";
 
 export async function retrieveRecipeCategories(recipeId: string | undefined) {
   const parsedRecipeId = validateId(recipeId);
 
-  const recipeCategories = await categoryRepository.retrieveRecipeCategories(
+  const recipeCategories = await categoryService.retrieveRecipeCategories(
     parsedRecipeId
   );
 
@@ -14,7 +14,7 @@ export async function retrieveRecipeCategories(recipeId: string | undefined) {
 }
 
 export async function createCategory(categoryName: string) {
-  return await categoryRepository.createCategory(categoryName);
+  return await categoryService.createCategory(categoryName);
 }
 
 export async function createRecipeCategory(
@@ -25,7 +25,7 @@ export async function createRecipeCategory(
 
   const parsedRecipeId = validateId(recipeId);
 
-  const recipeCategory = await categoryRepository.createRecipeCategory(
+  const recipeCategory = await categoryService.createRecipeCategory(
     parsedRecipeId,
     category
   );
