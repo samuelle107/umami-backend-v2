@@ -18,9 +18,9 @@ export async function retrieveRecipe(recipeId: string | undefined) {
 
 export async function createRecipe(body: Record<string, any>) {
   const data: Prisma.RecipeCreateInput = {
-    imageUrl: body.image_url,
+    imageUrl: body.imageUrl,
     name: body.name,
-    srcUrl: body.src_url,
+    srcUrl: body.srcUrl,
   };
 
   const recipe = await recipeRepository.createRecipe(data);
