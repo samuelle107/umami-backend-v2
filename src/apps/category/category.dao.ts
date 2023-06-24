@@ -39,6 +39,7 @@ async function createRecipeCategory(recipeId: number, category: Category) {
     create: {
       categoryId: category.id,
       recipeId: recipeId,
+      userId: 1,
     },
   });
 

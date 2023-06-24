@@ -48,7 +48,7 @@ export async function postCategory(
   next();
 }
 
-export async function getRecipeCategory(
+export async function postRecipeCategory(
   req: Request<{
     [routeIds.recipe]: string;
   }>,

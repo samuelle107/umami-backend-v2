@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 import { validateId } from '../../../utils';
 import RecipeDAO from '../recipe.dao';
 import recipeCreateSchema from './recipe.schema';
@@ -19,7 +21,15 @@ export async function createRecipe(body: RecipeCreate) {
   await recipeCreateSchema.validate(body);
 
   const newRecipe = recipeCreateSchema.cast(body, { stripUnknown: true });
-  const recipe = await RecipeDAO.createRecipe(newRecipe);
+  const newRecipeWithUser: Prisma.RecipeCreateInput = {
+    ...newRecipe,
+    user: {
+      connect: {
+        id: 1,
+      },
+    },
+  };
+  const recipe = await RecipeDAO.createRecipe(newRecipeWithUser);
 
   return recipe;
 }

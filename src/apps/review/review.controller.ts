@@ -64,7 +64,7 @@ export async function postRecipeReview(
 
     res.send(review);
   } catch (err) {
-    console.log(err);
+    console.log('err', err);
     res.status(400).send({
       message: 'Could not create review',
     });

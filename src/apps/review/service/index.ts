@@ -24,8 +24,14 @@ export async function createRecipeReview(
   await reviewCreateSchema.validate(body);
 
   const newReview = reviewCreateSchema.cast(body, { stripUnknown: true });
+  // TODO: review when
   const data: Prisma.ReviewCreateInput = {
     ...newReview,
+    user: {
+      connect: {
+        id: 1,
+      },
+    },
     recipe: {
       connect: {
         id: validateId(recipeId),

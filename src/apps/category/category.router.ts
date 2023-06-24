@@ -8,8 +8,6 @@ const recipeCategoryRouter = express.Router();
 recipeCategoryRouter
   .route(routes.categories)
   .get(controller.getRecipeCategories)
-  .post(controller.postCategory)
-  // Dependent on addAddCategory
-  .post(controller.getRecipeCategory);
+  .post(controller.postCategory, controller.postRecipeCategory);
 
 export default recipeCategoryRouter;

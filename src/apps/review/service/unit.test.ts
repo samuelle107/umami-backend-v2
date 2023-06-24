@@ -9,6 +9,7 @@ describe('review.service', () => {
         rating: 4,
         comment: null,
         recipeId: 1,
+        userId: 1,
       });
 
       expect(
