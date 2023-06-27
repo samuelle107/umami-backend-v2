@@ -8,15 +8,16 @@ datasource db {
 }
 
 model Recipe {
-  id               Int              @id(map: "recipes_pkey") @default(autoincrement())
-  name             String           @db.VarChar(255)
-  imageUrl         String?          @db.VarChar(255)
-  srcUrl           String?          @db.VarChar(255)
-  description      String?          @db.VarChar(255)
-  userId           Int
-  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  recipeCategories RecipeCategory[]
-  reviews          Review[]
+  id                Int                @id(map: "recipes_pkey") @default(autoincrement())
+  name              String             @db.VarChar(255)
+  imageUrl          String?            @db.VarChar(255)
+  srcUrl            String?            @db.VarChar(255)
+  description       String?            @db.VarChar(255)
+  userId            Int
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipeCategories  RecipeCategory[]
+  recipeIngredients RecipeIngredient[]
+  reviews           Review[]
 }
 
 model Category {
@@ -54,4 +55,19 @@ model User {
   recipes          Recipe[]
   recipeCategories RecipeCategory[]
   reviews          Review[]
+}
+
+model Ingredient {
+  id                Int                @id @default(autoincrement())
+  ingredient        String             @unique(map: "Ingredient_ingredient_uniqe") @db.VarChar(255)
+  recipeIngredients RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  recipeId     Int
+  ingredientId Int
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, ingredientId])
 }
